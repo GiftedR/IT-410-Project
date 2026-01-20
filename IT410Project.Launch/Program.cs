@@ -1,4 +1,5 @@
-﻿using IT410Project.Providers;
+﻿using IT410Project.Operations.Sqlite;
+using IT410Project.Providers;
 
 namespace IT410Project.Launch;
 
@@ -12,17 +13,17 @@ internal class Program
 		{
 			try
 			{
-				Console.WriteLine("Attempting to use SqlServer, setting Sqlite as a fallback");
+				ConsoleProvider.WriteLine("Attempting to use SqlServer, setting Sqlite as a fallback");
 				SqlServerDBProvider.EnsureDatabaseRequirements();
 				if (m_HasArg("seed", ref args))
 				{
-					Console.WriteLine("Using Seed Data");
+					ConsoleProvider.WriteLine("Using Seed Data");
 					SqlServerDBProvider.CreateSampleSeedData();
 				}
 			}
 			catch (Exception e)
 			{
-				Console.WriteLine($"Error Occured: {e}\n\tFalling back to Sqlite...");
+				ConsoleProvider.WriteLine($"Error Occured: {e}\n\tFalling back to Sqlite...");
 				useSqlite = true;
 			}
 		}
@@ -31,13 +32,17 @@ internal class Program
 
 		if (useSqlite)
 		{
+			ConsoleProvider.WriteLine("Launching Sqlite Provider");
 			SqliteDBProvider.EnsureDatabaseRequirements();
 			if (m_HasArg("seed", ref args))
 			{
-				Console.WriteLine("Using Seed Data");
+				ConsoleProvider.WriteLine("Using Seed Data");
 				SqliteDBProvider.CreateSampleSeedData();
 			}
 		}
+
+		ProjectOperations po = new();
+		ConsoleProvider.WriteLine(po.GetAll().ToString());
 	}
 
 	private static bool m_HasArg(string arg, ref string[] args) => args.Contains(arg);

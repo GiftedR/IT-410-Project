@@ -3,9 +3,9 @@ using IT410Project.Models;
 
 namespace IT410Project.Operations.SqlServer;
 
-public class ProjectOperations : IDataAccess<Sleep>
+public class ProjectOperations : IDataAccess<Project>
 {
-	public int Create(Sleep newItem)
+	public int Create(Project newItem)
 	{
 		throw new NotImplementedException();
 	}
@@ -15,22 +15,22 @@ public class ProjectOperations : IDataAccess<Sleep>
 		throw new NotImplementedException();
 	}
 
-	public Sleep[] GetAll()
+	public Project[] GetAll()
 	{
 		throw new NotImplementedException();
 	}
 
-	public Sleep[] GetByDateRange(DateTime start, DateTime end)
+	public Project[] GetByDateRange(DateTime start, DateTime end)
 	{
 		throw new NotImplementedException();
 	}
 
-	public Sleep GetById(int id)
+	public Project GetById(int id)
 	{
 		throw new NotImplementedException();
 	}
 
-	public int UpdateItem(int id, Sleep updatedItem)
+	public int UpdateItem(int id, Project updatedItem)
 	{
 		throw new NotImplementedException();
 	}
