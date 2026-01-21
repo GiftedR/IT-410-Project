@@ -15,17 +15,17 @@ public class ProjectOperations : IDataAccess<Project>
 		throw new NotImplementedException();
 	}
 
-	public Project[] GetAll()
+	public IEnumerable<Project> GetAll()
 	{
 		throw new NotImplementedException();
 	}
 
-	public Project[] GetByDateRange(DateTime start, DateTime end)
+	public IEnumerable<Project> GetByDateRange(DateTime start, DateTime end)
 	{
 		throw new NotImplementedException();
 	}
 
-	public Project GetById(int id)
+	public Project? GetById(int id)
 	{
 		throw new NotImplementedException();
 	}

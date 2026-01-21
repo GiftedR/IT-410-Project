@@ -15,17 +15,17 @@ public class SleepOperations : IDataAccess<Sleep>
 		throw new NotImplementedException();
 	}
 
-	public Sleep[] GetAll()
+	public IEnumerable<Sleep> GetAll()
 	{
 		throw new NotImplementedException();
 	}
 
-	public Sleep[] GetByDateRange(DateTime start, DateTime end)
+	public IEnumerable<Sleep> GetByDateRange(DateTime start, DateTime end)
 	{
 		throw new NotImplementedException();
 	}
 
-	public Sleep GetById(int id)
+	public Sleep? GetById(int id)
 	{
 		throw new NotImplementedException();
 	}
