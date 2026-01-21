@@ -13,8 +13,22 @@ public class SqliteDBProvider : IDBRequirements
 		{
 			SqliteCommand insertSeedData = new(
 @"
-
-;"
+INSERT INTO ""Sleep""
+(
+	""Name"",
+	""StartTime"",
+	""EndTime"",
+	""Quality"",
+	""RepeatDays""
+)
+values
+(
+	""Work Day"",
+	"""",
+	"""",
+	3,
+	124
+);"
 ,connection);
 		}
 	}
