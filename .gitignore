@@ -61,3 +61,6 @@ nunit-*.xml
 
 # Libreoffice Lock
 **/**~lock*
+
+# Sqlite Database (No Binaries)
+*.db
