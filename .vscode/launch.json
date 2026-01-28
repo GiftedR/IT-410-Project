@@ -9,6 +9,17 @@
 			"type": "dotnet",
 			"request": "launch",
 			"projectPath": "${workspaceFolder}/IT410Project.Launch/IT410Project.Launch.csproj"
+		},
+		{
+			"name": "C#: IT410Project Debug w/ Seed",
+			"type": "coreclr",
+			"request": "launch",
+			"preLaunchTask": "build",
+			"program": "${workspaceFolder}/IT410Project.Launch/bin/Debug/net8.0/IT410Project.Launch",
+			"args": ["--", "seed"],
+			"cwd": "${workspaceFolder}/IT410Project.Launch",
+			"console": "internalConsole",
+			"stopAtEntry": false
 		}
 		
 	]

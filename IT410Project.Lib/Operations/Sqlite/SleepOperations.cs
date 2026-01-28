@@ -9,12 +9,52 @@ public class SleepOperations : IDataAccess<Sleep>
 {
 	public int Create(Sleep newItem)
 	{
-		throw new NotImplementedException();
+		int result = -1;
+
+		using (SqliteConnection connection = new(SqliteDBProvider.ConnectionString))
+		{
+			connection.Open();
+			
+			using (SqliteCommand createNewSleep = new(@"
+				INSERT INTO ""Sleep""
+				(""Name"", ""StartTime"", ""EndTime"", ""Quality"", ""RepeatDays"")
+				VALUES
+				(""@Name"", ""@StartTime"", ""@EndTime"", ""@Quality"", ""@RepeatDays"")
+			"))
+			{
+				createNewSleep.Parameters.AddWithValue("@Name", newItem.Name);
+				createNewSleep.Parameters.AddWithValue("@StartTime", newItem.StartTime);
+				createNewSleep.Parameters.AddWithValue("@EndTime", newItem.EndTime);
+				createNewSleep.Parameters.AddWithValue("@Quality", newItem.Quality);
+				createNewSleep.Parameters.AddWithValue("@RepeatDays", newItem.RepeatDays);
+
+
+				result = createNewSleep.ExecuteNonQuery();
+			}
+		}
+
+		return result;
 	}
 
 	public int DeleteItem(int id)
 	{
-		throw new NotImplementedException();
+		int result = -1;
+
+		using (SqliteConnection connection = new(SqliteDBProvider.ConnectionString))
+		{
+			connection.Open();
+			using (SqliteCommand deleteSleep = new(@"
+				DELETE FROM ""Sleep""
+				WHERE @Id = Id
+			"))
+			{
+				deleteSleep.Parameters.AddWithValue("@Id", id);
+
+				result = deleteSleep.ExecuteNonQuery();
+			}
+		}
+
+		return result;
 	}
 
 	public IEnumerable<Sleep> GetAll()
@@ -27,6 +67,38 @@ public class SleepOperations : IDataAccess<Sleep>
 			using (SqliteCommand getAllCommand = new(@"
 SELECT Id, Name, StartTime, EndTime, Quality, RepeatDays FROM ""Sleep"";", connection))
 			{
+				using (SqliteDataReader sleepReader = getAllCommand.ExecuteReader())
+				{
+					while (sleepReader.Read())
+					{
+						returnSleeps.Add(new Sleep
+						{
+							Id = sleepReader.GetInt32(0),
+							Name = sleepReader.GetString(1),
+							StartTime = sleepReader.GetDateTime(2),
+							EndTime = sleepReader.GetDateTime(3),
+							Quality = sleepReader.GetInt32(4),
+							RepeatDays = sleepReader.GetInt32(5)
+						});
+					}
+				}
+			}
+		}
+
+		return returnSleeps;
+	}
+	
+	public IEnumerable<Sleep> GetAllWithLimit(int limit)
+	{
+		List<Sleep> returnSleeps = [];
+		using (SqliteConnection connection = new(SqliteDBProvider.ConnectionString))
+		{
+			connection.Open();
+
+			using (SqliteCommand getAllCommand = new(@"
+SELECT Id, Name, StartTime, EndTime, Quality, RepeatDays FROM ""Sleep"" LIMIT @Limit;", connection))
+			{
+				getAllCommand.Parameters.AddWithValue("@Limit", limit);
 				using (SqliteDataReader sleepReader = getAllCommand.ExecuteReader())
 				{
 					while (sleepReader.Read())
@@ -88,6 +160,31 @@ SELECT Id, Name, StartTime, EndTime, Quality, RepeatDays FROM ""Sleep"" WHERE Id
 
 	public int UpdateItem(int id, Sleep updatedItem)
 	{
-		throw new NotImplementedException();
+		int result = -1;
+
+		using (SqliteConnection connection = new(SqliteDBProvider.ConnectionString))
+		{
+			connection.Open();
+			using (SqliteCommand createNewSleep = new(@"
+				UPDATE ""Sleep""
+				SET ""Name"" = ""@Name"",
+					""StartTime"" = ""@StartTime"",
+					""EndTime"" = ""@EndTime"",
+					""Quality"" = ""@Quality"",
+					""RepeatDays"" = ""@RepeatDays""
+				WHERE ""@Id"" = ""Id""
+			"))
+			{
+				createNewSleep.Parameters.AddWithValue("@Name", updatedItem.Name);
+				createNewSleep.Parameters.AddWithValue("@StartTime", updatedItem.StartTime);
+				createNewSleep.Parameters.AddWithValue("@EndTime", updatedItem.EndTime);
+				createNewSleep.Parameters.AddWithValue("@Quality", updatedItem.Quality);
+				createNewSleep.Parameters.AddWithValue("@RepeatDays", updatedItem.RepeatDays);
+
+				result = createNewSleep.ExecuteNonQuery();
+			}
+		}
+
+		return result;
 	}
 }

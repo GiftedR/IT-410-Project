@@ -9,12 +9,20 @@ public class ProjectOperations : IDataAccess<Project>
 {
 	public int Create(Project newItem)
 	{
-		throw new NotImplementedException();
+		using (SqliteConnection connection = new(SqliteDBProvider.ConnectionString))
+		{
+			connection.Open();
+		}
+		return 0;
 	}
 
 	public int DeleteItem(int id)
 	{
-		throw new NotImplementedException();
+		using (SqliteConnection connection = new(SqliteDBProvider.ConnectionString))
+		{
+			connection.Open();
+		}
+		return 0;
 	}
 
 	public IEnumerable<Project> GetAll()
