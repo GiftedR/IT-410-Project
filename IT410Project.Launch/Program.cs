@@ -33,6 +33,7 @@ internal class Program
 		{
 			useSqlite = true;
 		}
+		Console.WriteLine(Directory.GetCurrentDirectory());
 
 		ConsoleProvider.WriteLine($"Sql Server: {m_HasArg("sqlserver", ref args)}");
 		ConsoleProvider.WriteLine($"Use Sqlite {useSqlite}");
@@ -60,16 +61,33 @@ internal class Program
 			ConsoleProvider.WriteLine(item.ToString());
 		}
 
-		ConsoleProvider.WriteLine($"Testing Create with a new Sleep");
-		so.Create(new Sleep
-		{
+		ConsoleProvider.WriteLine($"Testing Updating with a new Sleep");
+		so.UpdateItem(1, new Sleep{
 			Name = "New Shweep",
 			StartTime = DateTime.Now,
 			EndTime = DateTime.Now.AddDays(7),
 			Quality = 3,
 			RepeatDays = 0
 		});
+		
+		Sleep? updatedSleep = so.GetById(1);
+		ConsoleProvider.WriteLine($"New first sleep: {(updatedSleep == null ? "No Sleep Found..." : updatedSleep)}");
+		ConsoleProvider.WriteLine($"Testing Deleting a Sleep at index 100");
+		so.DeleteItem(100);
+		Sleep? deletedSleep = so.GetById(100);
+		ConsoleProvider.WriteLine($"Deleted Sleep: {(deletedSleep == null ? "No Sleep Found..." : deletedSleep)}");
+		ConsoleProvider.WriteLine($"Testing Transaction to fix timezone dates");
+		
+		// ShootDatabase();
 	}
 
 	private static bool m_HasArg(string arg, ref string[] args) => args.Contains(arg);
+
+	private static void ShootDatabase()
+	{
+		if (File.Exists("Data/Database.db"))
+		{
+			File.Delete("Data/Database.db");
+		}
+	}
 }

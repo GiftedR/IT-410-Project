@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices;
 using IT410Project.Interfaces;
 using IT410Project.Models;
 using IT410Project.Providers;
@@ -20,7 +21,7 @@ public class SleepOperations : IDataAccess<Sleep>
 				(""Name"", ""StartTime"", ""EndTime"", ""Quality"", ""RepeatDays"")
 				VALUES
 				(""@Name"", ""@StartTime"", ""@EndTime"", ""@Quality"", ""@RepeatDays"")
-			"))
+			", connection))
 			{
 				createNewSleep.Parameters.AddWithValue("@Name", newItem.Name);
 				createNewSleep.Parameters.AddWithValue("@StartTime", newItem.StartTime);
@@ -46,7 +47,7 @@ public class SleepOperations : IDataAccess<Sleep>
 			using (SqliteCommand deleteSleep = new(@"
 				DELETE FROM ""Sleep""
 				WHERE @Id = Id
-			"))
+			", connection))
 			{
 				deleteSleep.Parameters.AddWithValue("@Id", id);
 
@@ -103,6 +104,7 @@ SELECT Id, Name, StartTime, EndTime, Quality, RepeatDays FROM ""Sleep"" LIMIT @L
 				{
 					while (sleepReader.Read())
 					{
+						Console.WriteLine($"{sleepReader.GetInt32(0)}, {sleepReader.GetString(2)}");
 						returnSleeps.Add(new Sleep
 						{
 							Id = sleepReader.GetInt32(0),
@@ -165,23 +167,24 @@ SELECT Id, Name, StartTime, EndTime, Quality, RepeatDays FROM ""Sleep"" WHERE Id
 		using (SqliteConnection connection = new(SqliteDBProvider.ConnectionString))
 		{
 			connection.Open();
-			using (SqliteCommand createNewSleep = new(@"
+			using (SqliteCommand updateSleep = new(@"
 				UPDATE ""Sleep""
-				SET ""Name"" = ""@Name"",
-					""StartTime"" = ""@StartTime"",
-					""EndTime"" = ""@EndTime"",
-					""Quality"" = ""@Quality"",
-					""RepeatDays"" = ""@RepeatDays""
-				WHERE ""@Id"" = ""Id""
-			"))
+				SET ""Name"" = @Name,
+					""StartTime"" = @StartTime,
+					""EndTime"" = @EndTime,
+					""Quality"" = @Quality,
+					""RepeatDays"" = @RepeatDays
+				WHERE ""Id"" = @Id
+			", connection))
 			{
-				createNewSleep.Parameters.AddWithValue("@Name", updatedItem.Name);
-				createNewSleep.Parameters.AddWithValue("@StartTime", updatedItem.StartTime);
-				createNewSleep.Parameters.AddWithValue("@EndTime", updatedItem.EndTime);
-				createNewSleep.Parameters.AddWithValue("@Quality", updatedItem.Quality);
-				createNewSleep.Parameters.AddWithValue("@RepeatDays", updatedItem.RepeatDays);
+				updateSleep.Parameters.AddWithValue("@Name", updatedItem.Name);
+				updateSleep.Parameters.AddWithValue("@StartTime", updatedItem.StartTime);
+				updateSleep.Parameters.AddWithValue("@EndTime", updatedItem.EndTime);
+				updateSleep.Parameters.AddWithValue("@Quality", updatedItem.Quality);
+				updateSleep.Parameters.AddWithValue("@RepeatDays", updatedItem.RepeatDays);
+				updateSleep.Parameters.AddWithValue("@Id", id);
 
-				result = createNewSleep.ExecuteNonQuery();
+				result = updateSleep.ExecuteNonQuery();
 			}
 		}
 

@@ -107,8 +107,8 @@ Vivamus eget tincidunt nunc. Ut sagittis nec mi a faucibus. In sagittis risus si
 @"CREATE TABLE IF NOT EXISTS ""Projects"" (
 	""Id""	INTEGER,
 	""Name""	TEXT NOT NULL,
-	""StartTime""	DATE NOT NULL,
-	""EndTime""	DATE NOT NULL,
+	""StartTime""	DATETIME NOT NULL,
+	""EndTime""	DATETIME NOT NULL,
 	""Desc""	TEXT NOT NULL,
 	""IsRepeating""	BIT NOT NULL,
 	PRIMARY KEY(""Id"")
@@ -117,8 +117,8 @@ Vivamus eget tincidunt nunc. Ut sagittis nec mi a faucibus. In sagittis risus si
 CREATE TABLE IF NOT EXISTS ""Sleep"" (
 	""Id""	INTEGER,
 	""Name""	TEXT NOT NULL,
-	""StartTime""	DATE NOT NULL,
-	""EndTime""	DATE NOT NULL,
+	""StartTime""	DATETIME NOT NULL,
+	""EndTime""	DATETIME NOT NULL,
 	""Quality""	INTEGER NOT NULL,
 	""RepeatDays""	INTEGER NOT NULL,
 	PRIMARY KEY(""Id"")
