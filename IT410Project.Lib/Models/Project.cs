@@ -8,4 +8,9 @@ public class Project
 	public DateTime EndTime { get; set; }
 	public string Desc { get; set; } = default!;
 	public bool IsRepeating { get; set; }
+
+	public override string ToString()
+	{
+		return $"{Id}: {Name} @ {StartTime} - {EndTime}; Q: {IsRepeating}";
+	}
 }

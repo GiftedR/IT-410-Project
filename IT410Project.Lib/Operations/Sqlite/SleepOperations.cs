@@ -104,7 +104,6 @@ SELECT Id, Name, StartTime, EndTime, Quality, RepeatDays FROM ""Sleep"" LIMIT @L
 				{
 					while (sleepReader.Read())
 					{
-						Console.WriteLine($"{sleepReader.GetInt32(0)}, {sleepReader.GetString(2)}");
 						returnSleeps.Add(new Sleep
 						{
 							Id = sleepReader.GetInt32(0),
@@ -189,5 +188,44 @@ SELECT Id, Name, StartTime, EndTime, Quality, RepeatDays FROM ""Sleep"" WHERE Id
 		}
 
 		return result;
+	}
+
+	public int DeleteIdFromSleepAndProjects(int id)
+	{
+		int returnCode = 0;
+
+		using (SqliteConnection connection = new(SqliteDBProvider.ConnectionString))
+		{
+			connection.Open();
+			SqliteTransaction transAct = connection.BeginTransaction();
+
+			try
+			{
+				SqliteCommand deleteSleep = new SqliteCommand(
+					@"DELETE FROM ""Sleep""
+					WHERE ""Id"" = @Id;", connection, transAct);
+				
+				deleteSleep.Parameters.AddWithValue("@Id", id);
+				
+				deleteSleep.ExecuteNonQuery();
+
+				SqliteCommand deleteProject = new SqliteCommand(
+					@"DELETE FROM ""Sleep""
+					WHERE ""Id"" = @Id;", connection, transAct);
+
+				deleteProject.Parameters.AddWithValue("@Id", id);
+
+				deleteProject.ExecuteNonQuery();
+
+				transAct.Commit();
+			}
+			catch
+			{
+				transAct.Rollback();
+				throw;
+			}
+		}
+
+		return returnCode;
 	}
 }

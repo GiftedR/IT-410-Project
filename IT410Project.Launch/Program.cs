@@ -76,9 +76,23 @@ internal class Program
 		so.DeleteItem(100);
 		Sleep? deletedSleep = so.GetById(100);
 		ConsoleProvider.WriteLine($"Deleted Sleep: {(deletedSleep == null ? "No Sleep Found..." : deletedSleep)}");
-		ConsoleProvider.WriteLine($"Testing Transaction to fix timezone dates");
+		ConsoleProvider.WriteLine($"Testing Transaction with id 69");
 		
-		// ShootDatabase();
+		ProjectOperations po = new();
+		
+		Sleep? originalTransSleep = so.GetById(69);
+		Project? originalTransProje = po.GetById(69);
+		ConsoleProvider.WriteLine($"Original Sleep: {(originalTransSleep == null ? "No Sleep Found..." : originalTransSleep)}");
+		ConsoleProvider.WriteLine($"Original Project: {(originalTransProje == null ? "No Project Found..." : originalTransProje)}");
+
+		ConsoleProvider.WriteLine($"Deleting a Sleep and a Project at index 69");
+		so.DeleteIdFromSleepAndProjects(69);
+		Sleep? deletedTransSleep = so.GetById(69);
+		Project? deletedTransProje = po.GetById(69);
+		ConsoleProvider.WriteLine($"Deleted Sleep: {(deletedTransSleep == null ? "No Sleep Found..." : deletedTransSleep)}");
+		ConsoleProvider.WriteLine($"Deleted Project: {(deletedTransProje == null ? "No Project Found..." : deletedTransProje)}");
+		
+		ShootDatabase();
 	}
 
 	private static bool m_HasArg(string arg, ref string[] args) => args.Contains(arg);
