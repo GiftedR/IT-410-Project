@@ -1,4 +1,6 @@
-﻿using IT410Project.Models;
+﻿using System.Runtime.InteropServices;
+using System.Text.Json;
+using IT410Project.Models;
 using IT410Project.Operations.Sqlite;
 using IT410Project.Providers;
 
@@ -9,6 +11,36 @@ internal class Program
 	public static void Main(string[] args)
 	{
 		bool useSqlite = true;
+
+		{ // Moving Connection string to separate file
+			string json_file = File.ReadAllText("Connection-String.json");
+			Dictionary<string, string>? connections = JsonSerializer.Deserialize<Dictionary<string, string>>(json_file);
+
+			if (connections != null)
+			{
+				if (m_HasArg("sqlserver", ref args))
+				{
+					if (!string.IsNullOrEmpty(connections["SqlServer"]))
+					{
+						SqlServerDBProvider.ConnectionString = connections["SqlServer"];
+					}
+					else
+					{
+						throw new Exception("No String Specified for SqlServer");
+					}
+				}
+
+				if (!string.IsNullOrEmpty(connections["Sqlite"]))
+				{
+					SqliteDBProvider.ConnectionString = connections["Sqlite"];
+				}
+				else
+				{
+					throw new Exception("No String Specified for Sqlite");
+				}
+			}
+
+		}
 
 		if (m_HasArg("sqlserver", ref args))
 		{

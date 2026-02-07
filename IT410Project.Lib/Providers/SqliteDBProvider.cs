@@ -7,7 +7,7 @@ namespace IT410Project.Providers;
 
 public class SqliteDBProvider : IDBRequirements
 {
-	public static readonly string ConnectionString = "Data Source=Data/Database.db";
+	public static string ConnectionString { get; set; } = default!;
 
 	public static void CreateSampleSeedData()
 	{

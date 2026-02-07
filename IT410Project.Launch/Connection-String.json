@@ -1,0 +1,4 @@
+{
+	"Sqlite":"Data Source=Data/Database.db",
+	"SqlServer": null
+}

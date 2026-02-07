@@ -5,6 +5,8 @@ namespace IT410Project.Providers;
 
 public class SqlServerDBProvider : IDBRequirements
 {
+	public static string ConnectionString { get; set; } = default!;
+	
 	public static void CreateSampleSeedData()
 	{
 		throw new Exception("SqlServer has not been implemented");
