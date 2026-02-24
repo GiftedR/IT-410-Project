@@ -8,43 +8,44 @@ __Console Output:__
 > 
 > ADO Net Sample
 > Reading Sleep Operations with a limit of 10
-> 1: New Shweep @ 2/24/2026 10:28:02 AM - 3/3/2026 10:28:02 AM; Q: 3
-> 2: Placeholder Name... @ 2/25/2026 10:01:33 AM - 2/25/2026 6:01:33 PM; Q: 4
-> 3: Placeholder Name... @ 2/26/2026 10:01:33 AM - 2/26/2026 6:01:33 PM; Q: 2
-> 4: Placeholder Name... @ 2/27/2026 10:01:33 AM - 2/27/2026 6:01:33 PM; Q: 8
-> 5: Placeholder Name... @ 2/28/2026 10:01:33 AM - 2/28/2026 6:01:33 PM; Q: 0
-> 6: Placeholder Name... @ 3/1/2026 10:01:33 AM - 3/1/2026 6:01:33 PM; Q: 3
-> 7: Placeholder Name... @ 3/2/2026 10:01:33 AM - 3/2/2026 6:01:33 PM; Q: 4
-> 8: Placeholder Name... @ 3/3/2026 10:01:33 AM - 3/3/2026 6:01:33 PM; Q: 7
-> 9: Placeholder Name... @ 3/4/2026 10:01:33 AM - 3/4/2026 6:01:33 PM; Q: 3
-> 10: Placeholder Name... @ 3/5/2026 10:01:33 AM - 3/5/2026 6:01:33 PM; Q: 2
+> 1: Placeholder Name... @ 2/24/2026 1:42:07 PM - 2/24/2026 9:42:07 PM; Q: 8
+> 2: Placeholder Name... @ 2/25/2026 1:42:07 PM - 2/25/2026 9:42:07 PM; Q: 2
+> 3: Placeholder Name... @ 2/26/2026 1:42:07 PM - 2/26/2026 9:42:07 PM; Q: 5
+> 4: Placeholder Name... @ 2/27/2026 1:42:07 PM - 2/27/2026 9:42:07 PM; Q: 9
+> 5: Placeholder Name... @ 2/28/2026 1:42:07 PM - 2/28/2026 9:42:07 PM; Q: 8
+> 6: Placeholder Name... @ 3/1/2026 1:42:07 PM - 3/1/2026 9:42:07 PM; Q: 5
+> 7: Placeholder Name... @ 3/2/2026 1:42:07 PM - 3/2/2026 9:42:07 PM; Q: 5
+> 8: Placeholder Name... @ 3/3/2026 1:42:07 PM - 3/3/2026 9:42:07 PM; Q: 7
+> 9: Placeholder Name... @ 3/4/2026 1:42:07 PM - 3/4/2026 9:42:07 PM; Q: 7
+> 10: Placeholder Name... @ 3/5/2026 1:42:07 PM - 3/5/2026 9:42:07 PM; Q: 5
 > Testing Updating with a new Sleep
-> New first sleep: 1: New Shweep @ 2/24/2026 10:28:47 AM - 3/3/2026 10:28:47 AM; Q: 3
+> New first sleep: 1: New Shweep @ 2/24/2026 1:42:07 PM - 3/3/2026 1:42:07 PM; Q: 3
 > Testing Deleting a Sleep at index 100
 > Deleted Sleep: No Sleep Found...
 > Testing Transaction with id 69
-> Original Sleep: No Sleep Found...
-> Original Project: No Project Found...
+> Original Sleep: 69: Placeholder Name... @ 5/3/2026 1:42:07 PM - 5/3/2026 9:42:07 PM; Q: 8
+> Original Project: 69: Placeholder Name... @ 5/3/2026 1:42:07 PM - 5/3/2026 9:42:07 PM; Q: True
 > Deleting a Sleep and a Project at index 69
 > Deleted Sleep: No Sleep Found...
 > Deleted Project: No Project Found...
 > 
 > EF Core Sample
 > Reading Sleep Operations with a limit of 10
-> 1: New Shweep @ 2026-02-24 10:28:47.0236611 - 2026-03-03 10:28:47.0236669; Q: 3
-> 2: Placeholder Name... @ 2/25/2026 10:01:33 AM - 2/25/2026 6:01:33 PM; Q: 4
-> 3: Placeholder Name... @ 2/26/2026 10:01:33 AM - 2/26/2026 6:01:33 PM; Q: 2
-> 4: Placeholder Name... @ 2/27/2026 10:01:33 AM - 2/27/2026 6:01:33 PM; Q: 8
-> 5: Placeholder Name... @ 2/28/2026 10:01:33 AM - 2/28/2026 6:01:33 PM; Q: 0
-> 6: Placeholder Name... @ 3/1/2026 10:01:33 AM - 3/1/2026 6:01:33 PM; Q: 3
-> 7: Placeholder Name... @ 3/2/2026 10:01:33 AM - 3/2/2026 6:01:33 PM; Q: 4
-> 8: Placeholder Name... @ 3/3/2026 10:01:33 AM - 3/3/2026 6:01:33 PM; Q: 7
-> 9: Placeholder Name... @ 3/4/2026 10:01:33 AM - 3/4/2026 6:01:33 PM; Q: 3
-> 10: Placeholder Name... @ 3/5/2026 10:01:33 AM - 3/5/2026 6:01:33 PM; Q: 2
+> 1: New Shweep @ 2026-02-24 13:42:07.8450732 - 2026-03-03 13:42:07.8450851; Q: 3
+> 2: Placeholder Name... @ 2/25/2026 1:42:07 PM - 2/25/2026 9:42:07 PM; Q: 2
+> 3: Placeholder Name... @ 2/26/2026 1:42:07 PM - 2/26/2026 9:42:07 PM; Q: 5
+> 4: Placeholder Name... @ 2/27/2026 1:42:07 PM - 2/27/2026 9:42:07 PM; Q: 9
+> 5: Placeholder Name... @ 2/28/2026 1:42:07 PM - 2/28/2026 9:42:07 PM; Q: 8
+> 6: Placeholder Name... @ 3/1/2026 1:42:07 PM - 3/1/2026 9:42:07 PM; Q: 5
+> 7: Placeholder Name... @ 3/2/2026 1:42:07 PM - 3/2/2026 9:42:07 PM; Q: 5
+> 8: Placeholder Name... @ 3/3/2026 1:42:07 PM - 3/3/2026 9:42:07 PM; Q: 7
+> 9: Placeholder Name... @ 3/4/2026 1:42:07 PM - 3/4/2026 9:42:07 PM; Q: 7
+> 10: Placeholder Name... @ 3/5/2026 1:42:07 PM - 3/5/2026 9:42:07 PM; Q: 5
 > Testing Updating with a new Sleep
-> New first sleep: 2: Placeholder Name... @ 2/25/2026 10:01:33 AM - 2/25/2026 6:01:33 PM; Q: 4
+> Sleep To Update: 2: Placeholder Name... @ 2/25/2026 1:42:07 PM - 2/25/2026 9:42:07 PM; Q: 2
+> New first sleep: 2: New Shweep @ 2/24/2026 1:42:09 PM - 3/3/2026 1:42:09 PM; Q: 3
 > Testing Deleting a Sleep at index 101
 > Deleted Sleep: No Sleep Found...
 > Testing Transaction with id 70
-> Original Sleep: 70: Placeholder Name... @ 5/4/2026 10:01:33 AM - 5/4/2026 6:01:33 PM; Q: 5
-> Original Project: 70: Placeholder Name... @ 5/4/2026 10:01:33 AM - 5/4/2026 6:01:33 PM; R: False
+> Original Sleep: 70: Placeholder Name... @ 5/4/2026 1:42:07 PM - 5/4/2026 9:42:07 PM; Q: 4
+> Original Project: 70: Placeholder Name... @ 5/4/2026 1:42:07 PM - 5/4/2026 9:42:07 PM; R: False

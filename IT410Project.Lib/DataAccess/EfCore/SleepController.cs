@@ -53,9 +53,9 @@ public class SleepController : IDataAccess<Sleep>
 	{
 		Sleep? honkShoo = GetById(id);
 		if (honkShoo is null)
-			return 0;
+			throw new InvalidDataException("No Data Found with Id");
 		if (honkShoo.Id != updatedItem.Id)
-			return 0;
+			throw new InvalidDataException("Ids do not match");
 		_context.Entry(updatedItem).State = EntityState.Modified;
 		return _context.SaveChanges();
 	}

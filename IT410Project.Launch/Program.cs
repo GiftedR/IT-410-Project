@@ -151,13 +151,18 @@ internal class Program
 		}
 
 		ConsoleProvider.WriteLine($"Testing Updating with a new Sleep");
-		sc.UpdateItem(2, new efModels.Sleep{
-			Name = "New Shweep",
-			StartTime = DateTime.Now.ToString(),
-			EndTime = DateTime.Now.AddDays(7).ToString(),
-			Quality = 3,
-			RepeatDays = 0
-		});
+		efModels.Sleep? sleepToUpdate = sc.GetById(2);
+		ConsoleProvider.WriteLine($"Sleep To Update: {(sleepToUpdate == null ? "No Sleep Found..." : sleepToUpdate)}");
+
+		if (sleepToUpdate != null)
+		{
+			sleepToUpdate.Name = "New Shweep";
+			sleepToUpdate.StartTime = DateTime.Now.ToString();
+			sleepToUpdate.EndTime = DateTime.Now.AddDays(7).ToString();
+			sleepToUpdate.Quality = 3;
+			sleepToUpdate.RepeatDays = 0;
+			sc.UpdateItem(2, sleepToUpdate);
+		}
 		
 		efModels.Sleep? updatedSleep = sc.GetById(2);
 		ConsoleProvider.WriteLine($"New first sleep: {(updatedSleep == null ? "No Sleep Found..." : updatedSleep)}");
