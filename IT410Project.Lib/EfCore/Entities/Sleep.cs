@@ -23,4 +23,9 @@ public partial class Sleep
 	public int Quality { get; set; }
 
 	public int RepeatDays { get; set; }
+
+	public override string ToString()
+	{
+		return $"{Id}: {Name} @ {StartTime} - {EndTime}; Q: {Quality}";
+	}
 }

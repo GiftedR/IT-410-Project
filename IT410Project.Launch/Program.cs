@@ -90,12 +90,12 @@ internal class Program
 		ADOSample(itemLimit);
 		EFCoreSample(itemLimit);
 
-		// ShootDatabase();
+		ShootDatabase();
 	}
 
 	public static void ADOSample(int itemLimit = 10)
 	{
-		ConsoleProvider.WriteLine("ADO Net Sample");
+		ConsoleProvider.WriteLine("\nADO Net Sample");
 		ConsoleProvider.WriteLine($"Reading Sleep Operations with a limit of {itemLimit}");
 
 		SleepOperations so = new();
@@ -139,7 +139,7 @@ internal class Program
 
 	public static void EFCoreSample(int itemLimit = 10)
 	{
-		ConsoleProvider.WriteLine("EF Core Sample");
+		ConsoleProvider.WriteLine("\nEF Core Sample");
 		ConsoleProvider.WriteLine($"Reading Sleep Operations with a limit of {itemLimit}");
 		ProjectDbContext pdb = new();
 
@@ -151,7 +151,7 @@ internal class Program
 		}
 
 		ConsoleProvider.WriteLine($"Testing Updating with a new Sleep");
-		sc.UpdateItem(1, new efModels.Sleep{
+		sc.UpdateItem(2, new efModels.Sleep{
 			Name = "New Shweep",
 			StartTime = DateTime.Now.ToString(),
 			EndTime = DateTime.Now.AddDays(7).ToString(),
@@ -159,18 +159,18 @@ internal class Program
 			RepeatDays = 0
 		});
 		
-		efModels.Sleep? updatedSleep = sc.GetById(1);
+		efModels.Sleep? updatedSleep = sc.GetById(2);
 		ConsoleProvider.WriteLine($"New first sleep: {(updatedSleep == null ? "No Sleep Found..." : updatedSleep)}");
-		ConsoleProvider.WriteLine($"Testing Deleting a Sleep at index 100");
-		sc.DeleteItem(100);
-		efModels.Sleep? deletedSleep = sc.GetById(100);
+		ConsoleProvider.WriteLine($"Testing Deleting a Sleep at index 101");
+		sc.DeleteItem(101);
+		efModels.Sleep? deletedSleep = sc.GetById(101);
 		ConsoleProvider.WriteLine($"Deleted Sleep: {(deletedSleep == null ? "No Sleep Found..." : deletedSleep)}");
-		ConsoleProvider.WriteLine($"Testing Transaction with id 69");
+		ConsoleProvider.WriteLine($"Testing Transaction with id 70");
 		
 		ProjectController pc = new(pdb);
 		
-		efModels.Sleep? originalTransSleep = sc.GetById(69);
-		efModels.Project? originalTransProje = pc.GetById(69);
+		efModels.Sleep? originalTransSleep = sc.GetById(70);
+		efModels.Project? originalTransProje = pc.GetById(70);
 		ConsoleProvider.WriteLine($"Original Sleep: {(originalTransSleep == null ? "No Sleep Found..." : originalTransSleep)}");
 		ConsoleProvider.WriteLine($"Original Project: {(originalTransProje == null ? "No Project Found..." : originalTransProje)}");
 	}

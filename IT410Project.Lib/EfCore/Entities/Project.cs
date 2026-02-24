@@ -23,4 +23,8 @@ public partial class Project
 
 	[Column(TypeName = "BIT")]
 	public bool IsRepeating { get; set; }
+	public override string ToString()
+	{
+		return $"{Id}: {Name} @ {StartTime} - {EndTime}; R: {IsRepeating}";
+	}
 }
