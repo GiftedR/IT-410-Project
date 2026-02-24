@@ -25,12 +25,12 @@ public class ProjectController : IDataAccess<Project>
 
 	public IEnumerable<Project> GetAll()
 	{
-		return _context.Projects.ToList();
+		return (IEnumerable<Project>)_context.Projects.ToList();
 	}
 
 	public IEnumerable<Project> GetByDateRange(DateTime start, DateTime end)
 	{
-		return _context.Projects.ToList().Where((dt) => dt.StartTime >= start && dt.EndTime <= end);
+		return (IEnumerable<Project>)_context.Projects.ToList().Where((dt) => DateTime.Parse(dt.StartTime) >= start && DateTime.Parse(dt.EndTime) <= end);
 	}
 
 	public Project? GetById(int id)

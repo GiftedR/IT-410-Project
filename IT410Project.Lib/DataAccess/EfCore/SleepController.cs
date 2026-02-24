@@ -25,12 +25,12 @@ public class SleepController : IDataAccess<Sleep>
 
 	public IEnumerable<Sleep> GetAll()
 	{
-		return _context.Sleeps.ToList();
+		return (IEnumerable<Sleep>)_context.Sleeps.ToList();
 	}
 
 	public IEnumerable<Sleep> GetByDateRange(DateTime start, DateTime end)
 	{
-		return _context.Sleeps.ToList().Where((dt) => dt.StartTime >= start && dt.EndTime <= end);
+		return (IEnumerable<Sleep>)_context.Sleeps.ToList().Where((dt) => DateTime.Parse(dt.StartTime) >= start && DateTime.Parse(dt.EndTime) <= end);
 	}
 
 	public Sleep? GetById(int id)

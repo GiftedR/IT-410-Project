@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -15,13 +14,12 @@ namespace IT410Project.Lib.EfCore.Migrations
                 name: "Projects",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                    Id = table.Column<int>(type: "INTEGER", nullable: false),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
-                    StartTime = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    EndTime = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    StartTime = table.Column<string>(type: "DATETIME", nullable: false),
+                    EndTime = table.Column<string>(type: "DATETIME", nullable: false),
                     Desc = table.Column<string>(type: "TEXT", nullable: false),
-                    IsRepeating = table.Column<bool>(type: "INTEGER", nullable: false)
+                    IsRepeating = table.Column<bool>(type: "BIT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -29,20 +27,19 @@ namespace IT410Project.Lib.EfCore.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Sleeps",
+                name: "Sleep",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                    Id = table.Column<int>(type: "INTEGER", nullable: false),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
-                    StartTime = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    EndTime = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    StartTime = table.Column<string>(type: "DATETIME", nullable: false),
+                    EndTime = table.Column<string>(type: "DATETIME", nullable: false),
                     Quality = table.Column<int>(type: "INTEGER", nullable: false),
                     RepeatDays = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Sleeps", x => x.Id);
+                    table.PrimaryKey("PK_Sleep", x => x.Id);
                 });
         }
 
@@ -53,7 +50,7 @@ namespace IT410Project.Lib.EfCore.Migrations
                 name: "Projects");
 
             migrationBuilder.DropTable(
-                name: "Sleeps");
+                name: "Sleep");
         }
     }
 }
