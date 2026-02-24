@@ -1,5 +1,8 @@
 ﻿using System.Runtime.InteropServices;
 using System.Text.Json;
+using IT410Project.EfCore;
+using IT410Project.Lib.EfCore.Context;
+using efModels = IT410Project.Lib.EfCore.Entities;
 using IT410Project.Models;
 using IT410Project.Operations.Sqlite;
 using IT410Project.Providers;
@@ -65,10 +68,10 @@ internal class Program
 		{
 			useSqlite = true;
 		}
-		Console.WriteLine(Directory.GetCurrentDirectory());
+		// Console.WriteLine(Directory.GetCurrentDirectory());
 
-		ConsoleProvider.WriteLine($"Sql Server: {m_HasArg("sqlserver", ref args)}");
-		ConsoleProvider.WriteLine($"Use Sqlite {useSqlite}");
+		// ConsoleProvider.WriteLine($"Sql Server: {m_HasArg("sqlserver", ref args)}");
+		// ConsoleProvider.WriteLine($"Use Sqlite {useSqlite}");
 		// ConsoleProvider.WriteLine($"Has Seed: {m_HasArg("seed", ref args)}");
 
 		if (useSqlite)
@@ -83,7 +86,16 @@ internal class Program
 		}
 
 		const int itemLimit = 10;
+		
+		ADOSample(itemLimit);
+		EFCoreSample(itemLimit);
 
+		// ShootDatabase();
+	}
+
+	public static void ADOSample(int itemLimit = 10)
+	{
+		ConsoleProvider.WriteLine("ADO Net Sample");
 		ConsoleProvider.WriteLine($"Reading Sleep Operations with a limit of {itemLimit}");
 
 		SleepOperations so = new();
@@ -123,8 +135,44 @@ internal class Program
 		Project? deletedTransProje = po.GetById(69);
 		ConsoleProvider.WriteLine($"Deleted Sleep: {(deletedTransSleep == null ? "No Sleep Found..." : deletedTransSleep)}");
 		ConsoleProvider.WriteLine($"Deleted Project: {(deletedTransProje == null ? "No Project Found..." : deletedTransProje)}");
+	}
+
+	public static void EFCoreSample(int itemLimit = 10)
+	{
+		ConsoleProvider.WriteLine("EF Core Sample");
+		ConsoleProvider.WriteLine($"Reading Sleep Operations with a limit of {itemLimit}");
+		ProjectDbContext pdb = new();
+
+		SleepController sc = new(pdb);
+		IEnumerable<efModels.Sleep> sleepItems = sc.GetAllWithLimit(itemLimit);
+		foreach (efModels.Sleep item in sleepItems)
+		{
+			ConsoleProvider.WriteLine(item.ToString());
+		}
+
+		ConsoleProvider.WriteLine($"Testing Updating with a new Sleep");
+		sc.UpdateItem(1, new efModels.Sleep{
+			Name = "New Shweep",
+			StartTime = DateTime.Now.ToString(),
+			EndTime = DateTime.Now.AddDays(7).ToString(),
+			Quality = 3,
+			RepeatDays = 0
+		});
 		
-		ShootDatabase();
+		efModels.Sleep? updatedSleep = sc.GetById(1);
+		ConsoleProvider.WriteLine($"New first sleep: {(updatedSleep == null ? "No Sleep Found..." : updatedSleep)}");
+		ConsoleProvider.WriteLine($"Testing Deleting a Sleep at index 100");
+		sc.DeleteItem(100);
+		efModels.Sleep? deletedSleep = sc.GetById(100);
+		ConsoleProvider.WriteLine($"Deleted Sleep: {(deletedSleep == null ? "No Sleep Found..." : deletedSleep)}");
+		ConsoleProvider.WriteLine($"Testing Transaction with id 69");
+		
+		ProjectController pc = new(pdb);
+		
+		efModels.Sleep? originalTransSleep = sc.GetById(69);
+		efModels.Project? originalTransProje = pc.GetById(69);
+		ConsoleProvider.WriteLine($"Original Sleep: {(originalTransSleep == null ? "No Sleep Found..." : originalTransSleep)}");
+		ConsoleProvider.WriteLine($"Original Project: {(originalTransProje == null ? "No Project Found..." : originalTransProje)}");
 	}
 
 	private static bool m_HasArg(string arg, ref string[] args) => args.Contains(arg);

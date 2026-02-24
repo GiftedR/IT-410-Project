@@ -1,6 +1,7 @@
 using IT410Project.Interfaces;
 using IT410Project.Lib.EfCore.Context;
-using IT410Project.Models;
+using IT410Project.Lib.EfCore.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace IT410Project.EfCore;
 
@@ -15,22 +16,32 @@ public class SleepController : IDataAccess<Sleep>
 
 	public int Create(Sleep newItem)
 	{
-		throw new NotImplementedException();
+		_context.Sleeps.Add(newItem);
+		return _context.SaveChanges();
 	}
 
 	public int DeleteItem(int id)
 	{
-		throw new NotImplementedException();
+		Sleep? honkShoo = GetById(id);
+		if (honkShoo is null)
+			return 0;
+		_context.Sleeps.Remove(honkShoo);
+		return _context.SaveChanges();
 	}
 
 	public IEnumerable<Sleep> GetAll()
 	{
-		return (IEnumerable<Sleep>)_context.Sleeps.ToList();
+		return _context.Sleeps.ToList();
+	}
+
+	public IEnumerable<Sleep> GetAllWithLimit(int limit)
+	{
+		return _context.Sleeps.Where(p => p.Id <= limit).AsEnumerable();
 	}
 
 	public IEnumerable<Sleep> GetByDateRange(DateTime start, DateTime end)
 	{
-		return (IEnumerable<Sleep>)_context.Sleeps.ToList().Where((dt) => DateTime.Parse(dt.StartTime) >= start && DateTime.Parse(dt.EndTime) <= end);
+		return _context.Sleeps.ToList().Where((dt) => DateTime.Parse(dt.StartTime) >= start && DateTime.Parse(dt.EndTime) <= end);
 	}
 
 	public Sleep? GetById(int id)
@@ -40,6 +51,12 @@ public class SleepController : IDataAccess<Sleep>
 
 	public int UpdateItem(int id, Sleep updatedItem)
 	{
-		throw new NotImplementedException();
+		Sleep? honkShoo = GetById(id);
+		if (honkShoo is null)
+			return 0;
+		if (honkShoo.Id != updatedItem.Id)
+			return 0;
+		_context.Entry(updatedItem).State = EntityState.Modified;
+		return _context.SaveChanges();
 	}
 }

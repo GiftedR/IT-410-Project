@@ -10,5 +10,12 @@
 	<ItemGroup>
 		<ProjectReference Include="../IT410Project.Lib/IT410Project.Lib.csproj" />
 	</ItemGroup>
+	
+	<ItemGroup>
+		<None Update="Connection-String.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+
 
 </Project>
