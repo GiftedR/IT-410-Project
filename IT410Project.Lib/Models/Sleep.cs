@@ -13,4 +13,24 @@ public class Sleep
 	{
 		return $"{Id}: {Name} @ {StartTime} - {EndTime}; Q: {Quality}";
 	}
+
+	public static implicit operator Lib.EfCore.Entities.Sleep(Sleep sl) => new Lib.EfCore.Entities.Sleep
+	{
+		Id = (sl ?? default!).Id,
+		Name = (sl ?? default!).Name,
+		StartTime = (sl ?? default!).StartTime.ToString(),
+		EndTime = (sl ?? default!).EndTime.ToString(),
+		Quality = (sl ?? default!).Quality,
+		RepeatDays = (sl ?? default!).RepeatDays
+	};
+
+	public static implicit operator Sleep?(Lib.EfCore.Entities.Sleep? sl) => new Sleep
+	{
+		Id = (sl ?? default!).Id,
+		Name = (sl ?? default!).Name,
+		StartTime = DateTime.Parse((sl ?? default!).StartTime),
+		EndTime = DateTime.Parse((sl ?? default!).EndTime),
+		Quality = (sl ?? default!).Quality,
+		RepeatDays = (sl ?? default!).RepeatDays
+	};
 }
