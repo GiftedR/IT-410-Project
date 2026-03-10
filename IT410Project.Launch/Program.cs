@@ -6,12 +6,15 @@ using efModels = IT410Project.Lib.EfCore.Entities;
 using IT410Project.Models;
 using IT410Project.Operations.Sqlite;
 using IT410Project.Providers;
+using Microsoft.EntityFrameworkCore;
 
 namespace IT410Project.Launch;
 
 internal class Program
 {
-	public static void Main(string[] args)
+	public static readonly string ConnectionString = $"Data Source={Directory.GetCurrentDirectory()}/Data/EFDatabase.db";
+
+	public static async Task Main(string[] args)
 	{
 		bool useSqlite = true;
 
@@ -86,6 +89,13 @@ internal class Program
 		}
 
 		const int itemLimit = 10;
+
+		ProjectDbContext pdb = new()
+		{
+			ConnectionString = ConnectionString
+		};
+		await pdb.Database.MigrateAsync();
+		await pdb.DisposeAsync();
 		
 		ADOSample(itemLimit);
 		EFCoreSample(itemLimit);
@@ -95,6 +105,10 @@ internal class Program
 
 	public static void ADOSample(int itemLimit = 10)
 	{
+		const int udpateSleepId = 1;
+		const int deleteSleepId = 100;
+		const int transaSleepId = 69;
+
 		ConsoleProvider.WriteLine("\nADO Net Sample");
 		ConsoleProvider.WriteLine($"Reading Sleep Operations with a limit of {itemLimit}");
 
@@ -106,7 +120,7 @@ internal class Program
 		}
 
 		ConsoleProvider.WriteLine($"Testing Updating with a new Sleep");
-		so.UpdateItem(1, new Sleep{
+		so.UpdateItem(udpateSleepId, new Sleep{
 			Name = "New Shweep",
 			StartTime = DateTime.Now,
 			EndTime = DateTime.Now.AddDays(7),
@@ -114,34 +128,40 @@ internal class Program
 			RepeatDays = 0
 		});
 		
-		Sleep? updatedSleep = so.GetById(1);
+		Sleep? updatedSleep = so.GetById(udpateSleepId);
 		ConsoleProvider.WriteLine($"New first sleep: {(updatedSleep == null ? "No Sleep Found..." : updatedSleep)}");
-		ConsoleProvider.WriteLine($"Testing Deleting a Sleep at index 100");
-		so.DeleteItem(100);
-		Sleep? deletedSleep = so.GetById(100);
+		ConsoleProvider.WriteLine($"Testing Deleting a Sleep at index {deleteSleepId}");
+		so.DeleteItem(deleteSleepId);
+		Sleep? deletedSleep = so.GetById(deleteSleepId);
 		ConsoleProvider.WriteLine($"Deleted Sleep: {(deletedSleep == null ? "No Sleep Found..." : deletedSleep)}");
-		ConsoleProvider.WriteLine($"Testing Transaction with id 69");
+		ConsoleProvider.WriteLine($"Testing Transaction with id {transaSleepId}");
 		
 		ProjectOperations po = new();
 		
-		Sleep? originalTransSleep = so.GetById(69);
-		Project? originalTransProje = po.GetById(69);
+		Sleep? originalTransSleep = so.GetById(transaSleepId);
+		Project? originalTransProje = po.GetById(transaSleepId);
 		ConsoleProvider.WriteLine($"Original Sleep: {(originalTransSleep == null ? "No Sleep Found..." : originalTransSleep)}");
 		ConsoleProvider.WriteLine($"Original Project: {(originalTransProje == null ? "No Project Found..." : originalTransProje)}");
 
-		ConsoleProvider.WriteLine($"Deleting a Sleep and a Project at index 69");
-		so.DeleteIdFromSleepAndProjects(69);
-		Sleep? deletedTransSleep = so.GetById(69);
-		Project? deletedTransProje = po.GetById(69);
+		ConsoleProvider.WriteLine($"Deleting a Sleep and a Project at index {transaSleepId}");
+		so.DeleteIdFromSleepAndProjects(transaSleepId);
+		Sleep? deletedTransSleep = so.GetById(transaSleepId);
+		Project? deletedTransProje = po.GetById(transaSleepId);
 		ConsoleProvider.WriteLine($"Deleted Sleep: {(deletedTransSleep == null ? "No Sleep Found..." : deletedTransSleep)}");
 		ConsoleProvider.WriteLine($"Deleted Project: {(deletedTransProje == null ? "No Project Found..." : deletedTransProje)}");
 	}
 
 	public static void EFCoreSample(int itemLimit = 10)
 	{
+		const int udpateSleepId = 5;
+		const int deleteSleepId = 120;
+
 		ConsoleProvider.WriteLine("\nEF Core Sample");
 		ConsoleProvider.WriteLine($"Reading Sleep Operations with a limit of {itemLimit}");
-		ProjectDbContext pdb = new();
+		ProjectDbContext pdb = new()
+		{
+			ConnectionString = ConnectionString
+		};
 
 		SleepController sc = new(pdb);
 		IEnumerable<efModels.Sleep> sleepItems = sc.GetAllWithLimit(itemLimit);
@@ -151,7 +171,7 @@ internal class Program
 		}
 
 		ConsoleProvider.WriteLine($"Testing Updating with a new Sleep");
-		efModels.Sleep? sleepToUpdate = sc.GetById(2);
+		efModels.Sleep? sleepToUpdate = sc.GetById(udpateSleepId);
 		ConsoleProvider.WriteLine($"Sleep To Update: {(sleepToUpdate == null ? "No Sleep Found..." : sleepToUpdate)}");
 
 		if (sleepToUpdate != null)
@@ -161,23 +181,15 @@ internal class Program
 			sleepToUpdate.EndTime = DateTime.Now.AddDays(7).ToString();
 			sleepToUpdate.Quality = 3;
 			sleepToUpdate.RepeatDays = 0;
-			sc.UpdateItem(2, sleepToUpdate);
+			sc.UpdateItem(udpateSleepId, sleepToUpdate);
 		}
 		
-		efModels.Sleep? updatedSleep = sc.GetById(2);
+		efModels.Sleep? updatedSleep = sc.GetById(udpateSleepId);
 		ConsoleProvider.WriteLine($"New first sleep: {(updatedSleep == null ? "No Sleep Found..." : updatedSleep)}");
-		ConsoleProvider.WriteLine($"Testing Deleting a Sleep at index 101");
-		sc.DeleteItem(101);
-		efModels.Sleep? deletedSleep = sc.GetById(101);
+		ConsoleProvider.WriteLine($"Testing Deleting a Sleep at index {deleteSleepId}");
+		sc.DeleteItem(deleteSleepId);
+		efModels.Sleep? deletedSleep = sc.GetById(deleteSleepId);
 		ConsoleProvider.WriteLine($"Deleted Sleep: {(deletedSleep == null ? "No Sleep Found..." : deletedSleep)}");
-		ConsoleProvider.WriteLine($"Testing Transaction with id 70");
-		
-		ProjectController pc = new(pdb);
-		
-		efModels.Sleep? originalTransSleep = sc.GetById(70);
-		efModels.Project? originalTransProje = pc.GetById(70);
-		ConsoleProvider.WriteLine($"Original Sleep: {(originalTransSleep == null ? "No Sleep Found..." : originalTransSleep)}");
-		ConsoleProvider.WriteLine($"Original Project: {(originalTransProje == null ? "No Project Found..." : originalTransProje)}");
 	}
 
 	private static bool m_HasArg(string arg, ref string[] args) => args.Contains(arg);
