@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text;
 
 namespace IT410Project.Models;
 
@@ -13,4 +14,16 @@ public class LongProject
 	[NotMapped]
 	public double CompletedWorkHours { get; set; }
 	public ICollection<LongProjectDay> ProjectDays { get; set; } = [];
+
+	public override string ToString()
+	{
+		StringBuilder sb = new();
+		foreach (LongProjectDay lpd in ProjectDays)
+		{
+			sb.Append("\t");
+			sb.Append(lpd);
+			sb.Append("\n");
+		}
+		return $"{Id}: {Name} by {Deadline} whr {CompletedWorkHours} / {TotalWorkHours} PD:\n{sb}";
+	}
 }

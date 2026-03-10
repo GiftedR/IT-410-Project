@@ -155,6 +155,7 @@ internal class Program
 	{
 		const int udpateSleepId = 5;
 		const int deleteSleepId = 120;
+		const int longProjectId = 356;
 
 		ConsoleProvider.WriteLine("\nEF Core Sample");
 		ConsoleProvider.WriteLine($"Reading Sleep Operations with a limit of {itemLimit}");
@@ -164,6 +165,8 @@ internal class Program
 		};
 
 		SleepController sc = new(pdb);
+		LongProjectController lpc = new(pdb);
+
 		IEnumerable<efModels.Sleep> sleepItems = sc.GetAllWithLimit(itemLimit);
 		foreach (efModels.Sleep item in sleepItems)
 		{
@@ -190,6 +193,9 @@ internal class Program
 		sc.DeleteItem(deleteSleepId);
 		efModels.Sleep? deletedSleep = sc.GetById(deleteSleepId);
 		ConsoleProvider.WriteLine($"Deleted Sleep: {(deletedSleep == null ? "No Sleep Found..." : deletedSleep)}");
+	
+		LongProject? lp = lpc.GetById(longProjectId);
+		ConsoleProvider.WriteLine($"Long Project {longProjectId}: {(lp == null ? "No Long Project Found..." : lp) }");
 	}
 
 	private static bool m_HasArg(string arg, ref string[] args) => args.Contains(arg);
@@ -197,8 +203,15 @@ internal class Program
 	private static void ShootDatabase()
 	{
 		if (File.Exists("Data/Database.db"))
-		{
 			File.Delete("Data/Database.db");
-		}
+
+		if (File.Exists("Data/EFDatabase.db"))
+			File.Delete("Data/EFDatabase.db");
+
+		if (File.Exists("Data/EFDatabase.db-shm"))
+			File.Delete("Data/EFDatabase.db-shm");
+		
+		if (File.Exists("Data/EFDatabase.db-wal"))
+			File.Delete("Data/EFDatabase.db-wal");
 	}
 }

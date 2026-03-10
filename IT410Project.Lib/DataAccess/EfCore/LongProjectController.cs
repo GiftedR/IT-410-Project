@@ -54,7 +54,10 @@ public class LongProjectController : IDataAccess<LongProject>
 
 	public LongProject? GetById(int id)
 	{
-		return _context.LongProjects.Find(id);
+		return _context.LongProjects
+			.Where(lp => lp.Id == id)
+			.Include(lp => lp.ProjectDays)
+			.ToList().First();
 	}
 
 	public int UpdateItem(int id, LongProject updatedItem)

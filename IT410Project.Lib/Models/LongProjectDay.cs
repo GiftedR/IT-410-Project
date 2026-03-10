@@ -9,4 +9,8 @@ public class LongProjectDay
 	public string Notes { get; set; } = default!;
 	public int LongProjectId { get; set; }
 	public LongProject? LongProject { get; set; }
+	public override string ToString()
+	{
+		return $"{Id}: {StartTime} - {EndTime} :: {Notes}";
+	}
 }
