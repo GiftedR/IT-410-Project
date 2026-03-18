@@ -2,6 +2,7 @@ using IT410Project.Interfaces;
 using IT410Project.Lib.EfCore.Context;
 using IT410Project.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Data.Sqlite;
 
 namespace IT410Project.EfCore;
 
@@ -39,9 +40,11 @@ public class LongProjectController : IDataAccess<LongProject>
 	public IEnumerable<LongProject> GetAllWithLimit(int limit)
 	{
 		return (IEnumerable<LongProject>)_context.LongProjects
-			.Where(p => p.Id <= limit)
-			.Include(lp => lp.ProjectDays)
-			.ToList();
+			.FromSqlRaw(
+				@"select * from LongProjects lp
+				limit @limit;",
+				new SqliteParameter("@limit", limit)
+			).ToList();
 	}
 
 	public IEnumerable<LongProject> GetByDateRange(DateTime start, DateTime end)

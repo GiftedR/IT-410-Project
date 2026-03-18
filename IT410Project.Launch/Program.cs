@@ -196,6 +196,13 @@ internal class Program
 	
 		LongProject? lp = lpc.GetById(longProjectId);
 		ConsoleProvider.WriteLine($"Long Project {longProjectId}: {(lp == null ? "No Long Project Found..." : lp) }");
+		ConsoleProvider.WriteLine($"Reading Long Project Operations with a limit of {itemLimit}");
+		IEnumerable<LongProject> lpItems = lpc.GetAllWithLimit(itemLimit);
+		foreach (LongProject item in lpItems)
+		{
+			ConsoleProvider.WriteLine(item.ToString());
+		}
+
 	}
 
 	private static bool m_HasArg(string arg, ref string[] args) => args.Contains(arg);
