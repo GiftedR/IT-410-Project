@@ -6,4 +6,5 @@ The idea is to create a way to plan out time and figure out how much of each pro
 
 ## Current Week Items
 [Reflection For Week 11](Week11_Docs/README.md)
+
 [Video Showcase (Also can be found in the weeks readme)](https://www.youtube.com/watch?v=HSH1BHabXxY)
